@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title CinemaAbyss — C4 Container Diagram
+
+Person(viewer, "Зритель (Пользователь)", "Открывает сайт, аутентифицируется, выбирает фильм, оценивает его и добавляет в избранное")
+Person(admin, "Администратор", "Управляет каталогом фильмов")
+
+System_Boundary(cinema, "CinemaAbyss Backend") {
+    Container(gateway, "API Gateway", "Kong", "Маршрутизация, TLS, rate limiting, мониторинг и логирование (настраивает DevOps)")
+
+    Container(users_service, "User Service", "Go", "Аккаунты, профили, аутентификация")
+    ContainerDb(users_db, "User DB", "PostgreSQL", "users")
+
+    Container(metadata_service, "Metadata Service", "Go", "Фильмы, жанры, оценки и отзывы")
+    ContainerDb(metadata_db, "Metadata DB", "PostgreSQL", "movies, movie_genres, user_ratings")
+
+    Container(movies_service, "Movies Service", "Go", "Стриминг видео, выдача медиа-контента")
+    ContainerDb(movies_db, "Movies DB", "PostgreSQL", "views")
+
+    Container(payment_service, "Payment Service", "Go", "Платежи, тарифы и подписки")
+    ContainerDb(payment_db, "Payment DB", "PostgreSQL", "payments, subscriptions")
+
+    ContainerQueue(message_broker, "Message Broker", "Kafka", "Обмен событиями между сервисами (планируется, разворачивает DevOps)")
+}
+
+Rel(viewer, gateway, "API-запросы", "HTTPS/JSON")
+Rel(admin, gateway, "API-запросы", "HTTPS/JSON")
+
+Rel(gateway, users_service, "Маршрутизирует", "HTTP")
+Rel(gateway, metadata_service, "Маршрутизирует", "HTTP")
+Rel(gateway, movies_service, "Маршрутизирует", "HTTP")
+Rel(gateway, payment_service, "Маршрутизирует", "HTTP")
+
+Rel(users_service, users_db, "Читает/пишет", "SQL")
+Rel(metadata_service, metadata_db, "Читает/пишет", "SQL")
+Rel(movies_service, movies_db, "Читает/пишет", "SQL")
+Rel(payment_service, payment_db, "Читает/пишет", "SQL")
+
+Rel(movies_service, payment_service, "Проверка активной подписки", "HTTP/gRPC")
+
+Rel(payment_service, message_broker, "PaymentCompleted", "Kafka")
+Rel(movies_service, message_broker, "MovieWatched", "Kafka")
+Rel(metadata_service, message_broker, "RatingUpdated", "Kafka")
+
+Rel(message_broker, metadata_service, "Пересчёт рейтинга фильма", "Kafka")
+@enduml
