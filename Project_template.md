@@ -56,8 +56,17 @@
     - Реализуйте простой API, при вызове которого будут создаваться события User/Payment/Movie и обрабатываться внутри сервиса с записью в лог
     - Добавьте в docker-compose новый сервис, kafka там уже есть
 
-Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
-Приложите скриншот тестов и скриншот состояния топиков Kafka из UI http://localhost:8090 
+Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/**Newman**Приложите скриншот тестов и скриншот состояния топиков Kafka из UI http://localhost:8090
+
+[Cкриншот тестов 1](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/2_2-Kafka/1.png) 
+
+[Cкриншот тестов 2](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/2_2-Kafka/2.png) 
+
+[Cкриншот тестов 3](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/2_2-Kafka/3.png) 
+
+[Command text](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/2_2-Kafka/Postman.txt) 
+
+[Скриншот состояния топиков Kafka из UI http://localhost:8090](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/2_2-Kafka/topics.png)
 
 # Задание 3
 
