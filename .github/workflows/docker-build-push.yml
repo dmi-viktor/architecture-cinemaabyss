@@ -79,11 +79,22 @@ jobs:
 
       - name: Wait for services
         run: |
-          timeout 120 bash -c 'until \
-            curl -sf http://localhost:8000/health && \
-            curl -sf http://localhost:8080/health && \
-            curl -sf http://localhost:8081/api/movies/health && \
-            curl -sf http://localhost:8082/api/events/health; do sleep 3; done'
+          urls="http://localhost:8000/health http://localhost:8080/health http://localhost:8081/api/movies/health http://localhost:8082/api/events/health"
+          for i in $(seq 1 60); do
+            ok=1
+            for url in $urls; do
+              if ! curl -sf "$url" > /dev/null; then
+                echo "waiting for $url"
+                ok=0
+              fi
+            done
+            [ "$ok" -eq 1 ] && exit 0
+            sleep 3
+          done
+          echo "=== Some services are down, dumping state ==="
+          docker compose ps
+          docker compose logs --tail 50
+          exit 1
 
       - name: Install newman
         run: npm install -g newman
