@@ -33,7 +33,42 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # ... шаги сборки monolith, movies, proxy, events (как у тебя уже есть) ...
+      
+      - name: Build and push monolith
+        uses: docker/build-push-action@v4
+        with:
+          context: ./src/monolith
+          push: true
+          tags: |
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/monolith:latest
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/monolith:main
+
+      - name: Build and push movies-service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./src/microservices/movies
+          push: true
+          tags: |
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/movies-service:latest
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/movies-service:main
+
+      - name: Build and push events-service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./src/microservices/events
+          push: true
+          tags: |
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/events-service:latest
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/events-service:main
+
+      - name: Build and push proxy-service
+        uses: docker/build-push-action@v4
+        with:
+          context: ./src/microservices/proxy
+          push: true
+          tags: |
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/proxy-service:latest
+            ghcr.io/dmi-viktor/architecture-cinemaabyss/proxy-service:main
 
   api-tests:
     runs-on: ubuntu-latest
