@@ -283,8 +283,10 @@ cat .docker/config.json | base64
 
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
+
 [Скриншот 1](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/3_Kubernetes/cinemaabyss.png)
-[Скриншот 2](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/3_Kubernetes/eventsmicroservice.png)  
+
+[Скриншот 2](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/3_Kubernetes/eventsmicroservice.png)
 
 # Задание 4
 Для простоты дальнейшего обновления и развертывания вам как архитектуру необходимо так же реализовать helm-чарты для прокси-сервиса и проверить работу 
@@ -358,7 +360,11 @@ minikube tunnel
 
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
-и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies 
+
+[скриншот развертывание](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/4_Helm/get_pods.png)
+
+[результат вызова ](https://github.com/dmi-viktor/architecture-cinemaabyss/blob/cinema/4_Helm/cinemaabyss_response.png)[https://cinemaabyss.example.com/api/movies](https://cinemaabyss.example.com/api/movies)
 
 ## Удаляем все
 
